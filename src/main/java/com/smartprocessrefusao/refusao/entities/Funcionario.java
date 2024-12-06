@@ -1,43 +1,55 @@
 package com.smartprocessrefusao.refusao.entities;
 
-import java.util.Objects;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="tb_funcionario")
-public class Funcionario {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+@Table(name = "tb_funcionario")
+public class Funcionario extends CadastroPessoa  {
+	private static final long serialVersionUID = 1L;
 	private String cpf;
 	private String rg;
 	private String matricula;
 	private boolean usuarioSistema;
 	
+	@ManyToOne
+	@JoinColumn(name = "processo_id")
+	private Processo processo;
+	
+	
 	public Funcionario() {
-
+		
 	}
 
-	public Funcionario(Long id, String cpf, String rg, String matricula, boolean usuarioSistema) {
-		this.id = id;
+	/**
+	 * @param id
+	 * @param tipo
+	 * @param nome
+	 * @param email
+	 * @param telefone
+	 * @param logradouro
+	 * @param numero
+	 * @param complemento
+	 * @param bairro
+	 * @param cidade
+	 * @param cep
+	 * @param estado
+	 * @param uf
+	 * @param cpf
+	 * @param rg
+	 * @param matricula
+	 * @param usuarioSistema
+	 */
+	public Funcionario(Long id, char tipo, String nome, String email, String telefone, String logradouro, int numero,
+			String complemento, String bairro, String cidade, String cep, String estado, String uf, String cpf,
+			String rg, String matricula, boolean usuarioSistema) {
+		super(id, tipo, nome, email, telefone, logradouro, numero, complemento, bairro, cidade, cep, estado, uf);
 		this.cpf = cpf;
 		this.rg = rg;
 		this.matricula = matricula;
 		this.usuarioSistema = usuarioSistema;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getCpf() {
@@ -72,23 +84,6 @@ public class Funcionario {
 		this.usuarioSistema = usuarioSistema;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(cpf, id, matricula, rg, usuarioSistema);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Funcionario other = (Funcionario) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(id, other.id)
-				&& Objects.equals(matricula, other.matricula) && Objects.equals(rg, other.rg)
-				&& usuarioSistema == other.usuarioSistema;
-	}
+	
 
 }
