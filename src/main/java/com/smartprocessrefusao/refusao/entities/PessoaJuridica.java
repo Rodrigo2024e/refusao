@@ -1,39 +1,58 @@
 package com.smartprocessrefusao.refusao.entities;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.smartprocessrefusao.refusao.services.MovMaterial;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="tb_pes_juridica")
-public class PessoaJuridica {
+@Table(name = "tb_PesJuridica")
+public class PessoaJuridica extends CadastroPessoa{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String cnpj;
 	private String ie;
+	
+	
+	@OneToMany(mappedBy = "parceiro")
+	private List<MovMaterial> movmateriais = new ArrayList<>();
+	
+	
 	
 	public PessoaJuridica() {
 		
 	}
 
-	public PessoaJuridica(Long id, String cnpj, String ie) {
-		this.id = id;
+	/**
+	 * @param id
+	 * @param tipo
+	 * @param nome
+	 * @param email
+	 * @param telefone
+	 * @param logradouro
+	 * @param numero
+	 * @param complemento
+	 * @param bairro
+	 * @param cidade
+	 * @param cep
+	 * @param estado
+	 * @param uf
+	 * @param cnpj
+	 * @param ie
+	 */
+	public PessoaJuridica(Long id, char tipo, String nome, String email, String telefone, String logradouro, int numero,
+			String complemento, String bairro, String cidade, String cep, String estado, String uf, String cnpj,
+			String ie) {
+		super(id, tipo, nome, email, telefone, logradouro, numero, complemento, bairro, cidade, cep, estado, uf);
 		this.cnpj = cnpj;
 		this.ie = ie;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getCnpj() {
@@ -52,21 +71,5 @@ public class PessoaJuridica {
 		this.ie = ie;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(cnpj, id, ie);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PessoaJuridica other = (PessoaJuridica) obj;
-		return Objects.equals(cnpj, other.cnpj) && Objects.equals(id, other.id) && Objects.equals(ie, other.ie);
-	}
 
 }
